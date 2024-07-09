@@ -19,9 +19,9 @@ const router = express.Router();
 // router.get("/getPostComments", verifyToken, getPostComments)
 
 router.post("/createComment", createComment);
-router.get("/getComment", getComment);
-router.patch("/updateComment", updateComment);
-router.delete("/deleteComment", deleteComment);
-router.get("/getPostComments", getPostComments);
+router.get("/getComment/:commentId", getComment);
+router.patch("/updateComment/:commentId", updateComment);
+router.delete("/deleteComment/:commentId", deleteComment);
+router.get("/getPostComments/:postId", getPostComments);
 
 module.exports = router;

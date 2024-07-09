@@ -19,9 +19,9 @@ const router = express.Router();
 // router.get("/getUserPosts", verifyToken, getUserPosts)
 
 router.post("/createPost", createPost);
-router.get("/getPost", getPost);
-router.patch("/updatePost", updatePost);
-router.delete("/deletePost", deletePost);
-router.get("/getUserPosts", getUserPosts);
+router.get("/getPost/:postId", getPost);
+router.patch("/updatePost/:postId", updatePost);
+router.delete("/deletePost/:postId", deletePost);
+router.get("/getUserPosts/:userId", getUserPosts);
 
 module.exports = router;
