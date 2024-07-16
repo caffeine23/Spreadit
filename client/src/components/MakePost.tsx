@@ -12,25 +12,49 @@ import {
   Textarea,
 } from "@chakra-ui/react";
 import { MdDone } from "react-icons/md";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import useUserStore from "../context/UserContext";
+import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function MakePost() {
   const [content, setContent] = useState("");
   async function handleSubmit() {
-    console.log(content);
+    await axios.post("/post/createPost", {
+      userId: user?.userId,
+      content: content,
+    });
+    toast.success("Post successful.");
     setContent("");
   }
+  const { user, fetchUser } = useUserStore();
+  useEffect(() => {
+    fetchUser();
+  }, [fetchUser]);
   return (
     <>
+      <ToastContainer
+        position="bottom-right"
+        autoClose={1500}
+        hideProgressBar={true}
+        newestOnTop={true}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss={false}
+        draggable
+        pauseOnHover
+        theme="dark"
+      />
       <Card maxW="md">
         <CardHeader>
           <Flex gap="4">
             <Flex flex="1" gap="4" alignItems="center" flexWrap="wrap">
-              <Avatar src="https://api.dicebear.com/9.x/icons/svg?seed=TemporaryAvatar" />
+              <Avatar src={user?.pfp} />
 
               <Box>
-                <Heading size="sm">Display Name</Heading>
-                <Text>@username</Text>
+                <Heading size="sm">{user?.username}</Heading>
+                <Text>@{user?.username}</Text>
               </Box>
             </Flex>
           </Flex>
