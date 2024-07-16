@@ -8,6 +8,7 @@ const {
   getUserPosts,
   likePost,
   unlikePost,
+  getRandomPosts,
 } = require("../controllers/postController");
 
 // const verifyToken = require("../middleware/authMiddleware");
@@ -27,5 +28,6 @@ router.delete("/deletePost/:postId", deletePost);
 router.get("/getUserPosts/:userId", getUserPosts);
 router.get("/likePost/:postId", likePost);
 router.get("/unlikePost/:postId", unlikePost);
+router.get("/getRandomPosts", getRandomPosts);
 
 module.exports = router;

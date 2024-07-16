@@ -1,4 +1,5 @@
 const Post = require("../models/Post");
+const User = require("../models/User");
 
 async function createPost(req, res) {
   const { userId, content } = req.body;
@@ -9,7 +10,43 @@ async function createPost(req, res) {
 async function getPost(req, res) {
   const { postId } = req.params;
   const post = await Post.findById(postId);
-  res.send(post);
+  const user = await User.findById(post.userId);
+  data = {
+    post: post,
+    username: user.username,
+    pfp: user.userPfp,
+  };
+  res.send(data);
+}
+
+async function getRandomPosts(req, res) {
+  try {
+    const posts = await Post.aggregate([
+      { $sample: { size: 10 } }, // Adjust the size as needed
+      {
+        $lookup: {
+          from: "users", // The collection to join
+          localField: "userId", // Field from the Post collection
+          foreignField: "_id", // Field from the User collection
+          as: "user", // The result field
+        },
+      },
+      { $unwind: "$user" }, // To deconstruct the array and get individual user objects
+      {
+        $project: {
+          _id: 1,
+          content: 1,
+          likes: 1,
+          "user.username": 1,
+          "user.userPfp": 1,
+        },
+      },
+    ]);
+
+    res.status(200).json(posts);
+  } catch (error) {
+    res.status(500).json({ message: "Internal server error" });
+  }
 }
 
 async function updatePost(req, res) {
@@ -81,4 +118,5 @@ module.exports = {
   getUserPosts,
   likePost,
   unlikePost,
+  getRandomPosts,
 };
