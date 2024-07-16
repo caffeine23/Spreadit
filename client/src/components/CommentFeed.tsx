@@ -12,6 +12,7 @@ interface Comment {
   _id: string;
   content: string;
   user: User;
+  userId: string;
 }
 
 interface CommentFeedProps {
@@ -36,6 +37,7 @@ export default function CommentFeed({ postId }: CommentFeedProps) {
           _id={comment._id}
           content={comment.content}
           user={comment.user}
+          userId={comment.userId}
         />
       ))}
     </>

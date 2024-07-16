@@ -7,7 +7,13 @@ import {
   Box,
   Heading,
   Text,
+  Textarea,
+  Button,
 } from "@chakra-ui/react";
+import { MdDone } from "react-icons/md";
+import axios from "axios";
+import { useState, useEffect } from "react";
+import useUserStore from "../context/UserContext";
 
 interface User {
   _id: string;
@@ -19,9 +25,27 @@ interface CommentProps {
   _id: string;
   content: string;
   user: User;
+  userId: string;
 }
 
-const Comment: React.FC<CommentProps> = ({ content, user, _id }) => {
+const Comment: React.FC<CommentProps> = ({ content, user, _id, userId }) => {
+  const [commentContent, setCommentContent] = useState<string>(content);
+  const { user: currentUser, fetchUser } = useUserStore();
+  useEffect(() => {
+    fetchUser();
+  }, [fetchUser]);
+  console.log(currentUser?.userId, userId);
+
+  async function handleSubmit() {
+    if (commentContent.length === 0) {
+      await axios.delete(`/comment/deleteComment/${_id}`);
+    } else {
+      await axios.patch(`/comment/updateComment/${_id}`, {
+        content: commentContent,
+      });
+    }
+  }
+
   return (
     <Card width="60%" height="50%" className="my-4">
       <CardHeader>
@@ -36,7 +60,29 @@ const Comment: React.FC<CommentProps> = ({ content, user, _id }) => {
         </Flex>
       </CardHeader>
       <CardBody>
-        <Text>{content}</Text>
+        {currentUser?.userId === userId ? (
+          <Textarea
+            resize="none"
+            width="90%"
+            height="60px"
+            className="overflow-hidden"
+            value={commentContent}
+            onChange={(evt) => setCommentContent(evt.target.value)}
+          />
+        ) : (
+          <Text>{content}</Text>
+        )}
+        {currentUser?.userId === userId && (
+          <Button
+            flex="1"
+            variant="ghost"
+            rightIcon={<MdDone />}
+            width="10%"
+            onClick={handleSubmit}
+          >
+            Edit
+          </Button>
+        )}
       </CardBody>
     </Card>
   );
