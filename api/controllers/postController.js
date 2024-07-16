@@ -1,8 +1,8 @@
 const Post = require("../models/Post");
 
 async function createPost(req, res) {
-  const { userId, title, description } = req.body;
-  await Post.create({ userId: userId, title: title, description: description });
+  const { userId, content } = req.body;
+  await Post.create({ userId: userId, content: content });
   res.send("Post created");
 }
 
@@ -14,10 +14,9 @@ async function getPost(req, res) {
 
 async function updatePost(req, res) {
   const { postId } = req.params;
-  const { title, description } = req.body;
+  const { content } = req.body;
   await Post.findByIdAndUpdate(postId, {
-    title: title,
-    description: description,
+    content: content,
   });
   res.send(`Post ${postId} updated.`);
 }
