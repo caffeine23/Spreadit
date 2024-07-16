@@ -58,7 +58,7 @@ const FeedPost: React.FC<FeedPostProps> = ({ content, likes, user, _id }) => {
     } else {
       setIsPostLiked(false);
     }
-  }, [currentUser, likes]);
+  }, []);
 
   return (
     <Card maxW="md" className="my-8">
@@ -75,7 +75,10 @@ const FeedPost: React.FC<FeedPostProps> = ({ content, likes, user, _id }) => {
         </Flex>
       </CardHeader>
       <CardBody>
-        <Link to={"/post"}>
+        <Link
+          to={`/post/${_id}`}
+          state={{ content: content, likes, user, _id }}
+        >
           <Text>{content}</Text>
         </Link>
       </CardBody>
