@@ -6,58 +6,65 @@ import {
   Menu,
   MenuButton,
   MenuList,
-  MenuItem,
   MenuDivider,
   Stack,
   useColorMode,
   Center,
-} from '@chakra-ui/react'
-import { MoonIcon, SunIcon } from '@chakra-ui/icons'
-
+} from "@chakra-ui/react";
+import { MoonIcon, SunIcon } from "@chakra-ui/icons";
+import useUserStore from "../context/UserContext";
+import { useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function Navbar() {
-  const { colorMode, toggleColorMode } = useColorMode()
+  const navigate = useNavigate();
+  const { colorMode, toggleColorMode } = useColorMode();
+  const { user, fetchUser } = useUserStore();
+  useEffect(() => {
+    fetchUser();
+  }, [fetchUser]);
+
+  function logout() {
+    localStorage.removeItem("token");
+    navigate("/login");
+  }
+
   return (
     <>
       <Box px={4}>
-        <Flex h={16} alignItems={'center'} justifyContent={'space-between'}>
-          <Box>Logo</Box>
+        <Flex h={16} alignItems={"center"} justifyContent={"space-between"}>
+          <Link to={"/"}>
+            <Box>LOGO</Box>
+          </Link>
 
-          <Flex alignItems={'center'}>
-            <Stack direction={'row'} spacing={7}>
+          <Flex alignItems={"center"}>
+            <Stack direction={"row"} spacing={7}>
               <Button onClick={toggleColorMode}>
-                {colorMode === 'light' ? <MoonIcon /> : <SunIcon />}
+                {colorMode === "light" ? <MoonIcon /> : <SunIcon />}
               </Button>
 
               <Menu>
                 <MenuButton
                   as={Button}
-                  rounded={'full'}
-                  variant={'link'}
-                  cursor={'pointer'}
-                  minW={0}>
-                  <Avatar
-                    size={'sm'}
-                    src={'https://api.dicebear.com/9.x/icons/svg?seed=TemporaryAvatar'}
-                  />
+                  rounded={"full"}
+                  variant={"link"}
+                  cursor={"pointer"}
+                  minW={0}
+                >
+                  <Avatar size={"sm"} src={user?.pfp} />
                 </MenuButton>
-                <MenuList alignItems={'center'}>
+                <MenuList alignItems={"center"}>
                   <br />
                   <Center>
-                    <Avatar
-                      size={'2xl'}
-                      src={'https://api.dicebear.com/9.x/icons/svg?seed=TemporaryAvatar'}
-                    />
+                    <Avatar size={"2xl"} src={user?.pfp} />
                   </Center>
                   <br />
                   <Center>
-                    <p>Username</p>
+                    <p>@{user?.username}</p>
                   </Center>
                   <br />
                   <MenuDivider />
-                  <MenuItem>Your Servers</MenuItem>
-                  <MenuItem>Account Settings</MenuItem>
-                  <MenuItem>Logout</MenuItem>
+                  <Center onClick={logout}>Logout</Center>
                 </MenuList>
               </Menu>
             </Stack>
@@ -65,5 +72,5 @@ export default function Navbar() {
         </Flex>
       </Box>
     </>
-  )
+  );
 }
