@@ -15,9 +15,21 @@ import { FcLike } from "react-icons/fc";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
-export default function FeedPost() {
+interface User {
+  _id: string;
+  username: string;
+  userPfp: string;
+}
+
+interface FeedPostProps {
+  _id: string;
+  content: string;
+  likes: string[];
+  user: User;
+}
+
+const FeedPost: React.FC<FeedPostProps> = ({ content, likes, user }) => {
   const [isPostLiked, setIsPostLiked] = useState<boolean>();
-  const [isFollowing, setIsFollowing] = useState<boolean>();
 
   async function likePost() {
     console.log("axios request to like endpoint");
@@ -27,41 +39,24 @@ export default function FeedPost() {
     console.log("axios request to dislike endpoint");
     setIsPostLiked(false);
   }
-  async function followUser() {
-    console.log("axios request to follow endpoint");
-    setIsFollowing(true);
-  }
-  async function unfollowUser() {
-    console.log("axios request to unfollow endpoint");
-    setIsFollowing(false);
-  }
 
   return (
     <Card maxW="md" className="my-8">
       <CardHeader>
         <Flex gap="4">
           <Flex flex="1" gap="4" alignItems="center" flexWrap="wrap">
-            <Avatar src="https://api.dicebear.com/9.x/icons/svg?seed=AvatarOfThePoster" />
+            <Avatar src={user.userPfp} />
 
             <Box>
-              <Heading size="sm">Display Name</Heading>
-              <Text>@username</Text>
+              <Heading size="sm">{user.username}</Heading>
+              <Text>@{user.username}</Text>
             </Box>
           </Flex>
-          {isFollowing ? (
-            <Button variant="outline" onClick={unfollowUser}>
-              Following
-            </Button>
-          ) : (
-            <Button variant="outline" onClick={followUser}>
-              Follow
-            </Button>
-          )}
         </Flex>
       </CardHeader>
       <CardBody>
         <Link to={"/post"}>
-          <Text>Whatever the person has to say</Text>
+          <Text>{content}</Text>
         </Link>
       </CardBody>
       <CardFooter justify="space-between" flexWrap="wrap">
@@ -72,7 +67,7 @@ export default function FeedPost() {
             leftIcon={<FcLike />}
             onClick={unlikePost}
           >
-            #
+            {likes.length + 1}
           </Button>
         ) : (
           <Button
@@ -81,7 +76,7 @@ export default function FeedPost() {
             leftIcon={<FaHeart />}
             onClick={likePost}
           >
-            #
+            {likes.length}
           </Button>
         )}
         <Button flex="1" variant="ghost" leftIcon={<FaRegComment />}>
@@ -90,4 +85,6 @@ export default function FeedPost() {
       </CardFooter>
     </Card>
   );
-}
+};
+
+export default FeedPost;
