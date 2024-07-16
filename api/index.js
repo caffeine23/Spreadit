@@ -6,7 +6,6 @@ const cors = require("cors");
 const authRoutes = require("./routes/authRoutes");
 const postRoutes = require("./routes/postRoutes");
 const commentRoutes = require("./routes/commentRoutes");
-const userRoutes = require("./routes/userRoutes");
 const errorHandler = require("./utils/errorHandler");
 
 dotenv.config();
@@ -21,7 +20,6 @@ app.use(cors());
 app.use("/api/auth", authRoutes);
 app.use("/api/post", postRoutes);
 app.use("/api/comment", commentRoutes);
-app.use("/api/user", userRoutes);
 
 app.get("/test", (req, res) => {
   res.send("Server is up.");

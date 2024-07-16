@@ -54,8 +54,6 @@ async function fetchUser(req, res) {
       userId: userId,
       username: userData.username,
       pfp: userData.userPfp,
-      followers: userData.followers,
-      following: userData.following,
     };
     res.status(200).json(userResponse);
   } catch (error) {

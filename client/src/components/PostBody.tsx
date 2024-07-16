@@ -16,7 +16,6 @@ import { useState } from "react";
 
 export default function PostBody() {
   const [isPostLiked, setIsPostLiked] = useState<boolean>();
-  const [isFollowing, setIsFollowing] = useState<boolean>();
 
   async function likePost() {
     console.log("axios request to like endpoint");
@@ -25,14 +24,6 @@ export default function PostBody() {
   async function unlikePost() {
     console.log("axios request to dislike endpoint");
     setIsPostLiked(false);
-  }
-  async function followUser() {
-    console.log("axios request to follow endpoint");
-    setIsFollowing(true);
-  }
-  async function unfollowUser() {
-    console.log("axios request to unfollow endpoint");
-    setIsFollowing(false);
   }
 
   return (
@@ -47,15 +38,6 @@ export default function PostBody() {
               <Text>@username</Text>
             </Box>
           </Flex>
-          {isFollowing ? (
-            <Button variant="outline" onClick={unfollowUser}>
-              Following
-            </Button>
-          ) : (
-            <Button variant="outline" onClick={followUser}>
-              Follow
-            </Button>
-          )}
         </Flex>
       </CardHeader>
       <CardBody>

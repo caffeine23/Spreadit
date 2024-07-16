@@ -37,6 +37,7 @@ async function getRandomPosts(req, res) {
           _id: 1,
           content: 1,
           likes: 1,
+          "user._id": 1,
           "user.username": 1,
           "user.userPfp": 1,
         },
