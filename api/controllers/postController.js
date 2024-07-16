@@ -33,10 +33,52 @@ async function getUserPosts(req, res) {
   res.send(posts);
 }
 
+async function likePost(req, res) {
+  try {
+    const { userId } = req.body;
+    const { postId } = req.params;
+    const post = await Post.findById(postId);
+    if (!post) {
+      return res.status(404).json({ message: "Post not found." });
+    }
+
+    // Add user to the list of likes if not already liked
+    if (!post.likes.includes(userId)) {
+      post.likes.push(userId);
+      await post.save();
+    }
+
+    res.status(200).json({ message: "Post liked successfully." });
+  } catch (error) {
+    res.status(500).json({ message: "Internal server error." });
+  }
+}
+
+async function unlikePost(req, res) {
+  try {
+    const { userId } = req.body;
+    const { postId } = req.params;
+    const post = await Post.findById(postId);
+    if (!post) {
+      return res.status(404).json({ message: "Post not found." });
+    }
+
+    // Remove user from the list of likes if liked
+    post.likes = post.likes.filter((id) => id.toString() !== userId);
+    await post.save();
+
+    res.status(200).json({ message: "Post unliked successfully." });
+  } catch (error) {
+    res.status(500).json({ message: "Internal server error." });
+  }
+}
+
 module.exports = {
   createPost,
   getPost,
   updatePost,
   deletePost,
   getUserPosts,
+  likePost,
+  unlikePost,
 };
