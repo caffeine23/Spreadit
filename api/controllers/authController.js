@@ -46,24 +46,25 @@ async function login(req, res) {
   }
 }
 
-// uncomment this after implementing auth middleware
-// async function fetchUser(req, res) {
-//   try {
-//     const userId = req.userId;
-//     const userData = await User.findById(userId);
-//     const userResponse = {
-//       userId: userId,
-//       username: userData.username,
-//       pfp: userData.userPfp,
-//     };
-//     res.status(200).json(userResponse);
-//   } catch (error) {
-//     res.status(401).send("Invalid token");
-//   }
-// };
+async function fetchUser(req, res) {
+  try {
+    const userId = req.userId;
+    const userData = await User.findById(userId);
+    const userResponse = {
+      userId: userId,
+      username: userData.username,
+      pfp: userData.userPfp,
+      followers: userData.followers,
+      following: userData.following,
+    };
+    res.status(200).json(userResponse);
+  } catch (error) {
+    res.status(401).send("Invalid token");
+  }
+}
 
 module.exports = {
   register,
   login,
-  //   fetchUser,
+  fetchUser,
 };
