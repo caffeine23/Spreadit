@@ -28,9 +28,16 @@ interface FeedPostProps {
   content: string;
   likes: string[];
   user: User;
+  commentsCount: number;
 }
 
-const FeedPost: React.FC<FeedPostProps> = ({ content, likes, user, _id }) => {
+const FeedPost: React.FC<FeedPostProps> = ({
+  content,
+  likes,
+  user,
+  _id,
+  commentsCount,
+}) => {
   const [isPostLiked, setIsPostLiked] = useState<boolean>();
 
   const { user: currentUser, fetchUser } = useUserStore();
@@ -77,7 +84,7 @@ const FeedPost: React.FC<FeedPostProps> = ({ content, likes, user, _id }) => {
       <CardBody>
         <Link
           to={`/post/${_id}`}
-          state={{ content: content, likes, user, _id }}
+          state={{ content: content, likes, user, _id, commentsCount }}
         >
           <Text>{content}</Text>
         </Link>
@@ -103,7 +110,7 @@ const FeedPost: React.FC<FeedPostProps> = ({ content, likes, user, _id }) => {
           </Button>
         )}
         <Button flex="1" variant="ghost" leftIcon={<FaRegComment />}>
-          #
+          {commentsCount}
         </Button>
       </CardFooter>
     </Card>

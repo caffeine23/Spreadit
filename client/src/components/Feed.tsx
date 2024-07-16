@@ -13,6 +13,7 @@ interface Post {
   content: string;
   likes: string[];
   user: User;
+  commentsCount: number;
 }
 
 export default function Feed() {
@@ -34,6 +35,7 @@ export default function Feed() {
           likes={post.likes}
           user={post.user}
           _id={post._id}
+          commentsCount={post.commentsCount}
         />
       ))}
     </>

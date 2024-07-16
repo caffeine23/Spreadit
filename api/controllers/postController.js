@@ -33,13 +33,27 @@ async function getRandomPosts(req, res) {
       },
       { $unwind: "$user" }, // To deconstruct the array and get individual user objects
       {
+        $lookup: {
+          from: "comments",
+          localField: "_id",
+          foreignField: "postId",
+          as: "comments",
+        },
+      },
+      {
+        $addFields: {
+          commentsCount: { $size: "$comments" },
+        },
+      },
+      {
         $project: {
           _id: 1,
           content: 1,
           likes: 1,
-          "user._id": 1,
+          "user.userId": 1,
           "user.username": 1,
           "user.userPfp": 1,
+          commentsCount: 1,
         },
       },
     ]);

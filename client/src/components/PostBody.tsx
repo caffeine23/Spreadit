@@ -28,9 +28,16 @@ interface PostBodyProps {
   content: string;
   likes: string[];
   user: User;
+  commentsCount: number;
 }
 
-const PostBody: React.FC<PostBodyProps> = ({ content, likes, user, _id }) => {
+const PostBody: React.FC<PostBodyProps> = ({
+  content,
+  likes,
+  user,
+  _id,
+  commentsCount,
+}) => {
   const [isPostLiked, setIsPostLiked] = useState<boolean>();
   const [postContent, setPostContent] = useState<string>(content);
   const [isEditing, setIsEditing] = useState<boolean>(false);
@@ -122,7 +129,7 @@ const PostBody: React.FC<PostBodyProps> = ({ content, likes, user, _id }) => {
           </Button>
         )}
         <Button flex="1" variant="ghost" leftIcon={<FaRegComment />}>
-          #
+          {commentsCount}
         </Button>
         {currentUser?.userId === user._id && (
           <>
