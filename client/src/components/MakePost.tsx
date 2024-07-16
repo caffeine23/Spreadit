@@ -12,8 +12,14 @@ import {
   Textarea,
 } from "@chakra-ui/react";
 import { MdDone } from "react-icons/md";
+import { useState } from "react";
 
 export default function MakePost() {
+  const [content, setContent] = useState("");
+  async function handleSubmit() {
+    console.log(content);
+    setContent("");
+  }
   return (
     <>
       <Card maxW="md">
@@ -34,11 +40,18 @@ export default function MakePost() {
             placeholder="Say something"
             resize="none"
             className="overflow-hidden"
+            value={content}
+            onChange={(evt) => setContent(evt.target.value)}
           />
         </CardBody>
 
         <CardFooter>
-          <Button flex="1" variant="ghost" rightIcon={<MdDone />}>
+          <Button
+            flex="1"
+            variant="ghost"
+            rightIcon={<MdDone />}
+            onClick={handleSubmit}
+          >
             Post
           </Button>
         </CardFooter>

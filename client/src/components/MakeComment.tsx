@@ -11,8 +11,14 @@ import {
   Textarea,
 } from "@chakra-ui/react";
 import { MdDone } from "react-icons/md";
+import { useState } from "react";
 
 export default function MakeComment() {
+  const [content, setContent] = useState("");
+  async function handleSubmit() {
+    console.log(content);
+    setContent("");
+  }
   return (
     <>
       <Card width="60%" height="50%">
@@ -34,8 +40,16 @@ export default function MakeComment() {
             width="90%"
             height="60px"
             className="overflow-hidden"
+            value={content}
+            onChange={(evt) => setContent(evt.target.value)}
           />
-          <Button flex="1" variant="ghost" rightIcon={<MdDone />} width="10%">
+          <Button
+            flex="1"
+            variant="ghost"
+            rightIcon={<MdDone />}
+            width="10%"
+            onClick={handleSubmit}
+          >
             Reply
           </Button>
         </CardBody>
