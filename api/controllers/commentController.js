@@ -1,4 +1,6 @@
+const mongoose = require("mongoose");
 const Comment = require("../models/Comment");
+const User = require("../models/User");
 
 async function createComment(req, res) {
   const { userId, postId, content } = req.body;
@@ -30,8 +32,38 @@ async function deleteComment(req, res) {
 
 async function getPostComments(req, res) {
   const { postId } = req.params;
-  const comments = await Comment.find({ postId: postId });
-  res.send(comments);
+
+  try {
+    const comments = await Comment.aggregate([
+      { $match: { postId: new mongoose.Types.ObjectId(postId) } },
+      {
+        $lookup: {
+          from: "users",
+          localField: "userId",
+          foreignField: "_id",
+          as: "user",
+        },
+      },
+      { $unwind: "$user" },
+      {
+        $project: {
+          _id: 1,
+          postId: 1,
+          userId: 1,
+          content: 1,
+          "user.username": 1,
+          "user.userPfp": 1,
+        },
+      },
+    ]);
+
+    res.status(200).json(comments);
+  } catch (error) {
+    console.error("Error fetching comments:", error); // Log the error
+    res
+      .status(500)
+      .json({ message: "Internal server error", error: error.message });
+  }
 }
 
 module.exports = {

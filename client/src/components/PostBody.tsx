@@ -13,26 +13,23 @@ import {
 import { FaHeart, FaRegComment } from "react-icons/fa";
 import { FcLike } from "react-icons/fc";
 import { useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
 import axios from "axios";
 import useUserStore from "../context/UserContext";
 
-// interface User {
-//   _id: string;
-//   username: string;
-//   userPfp: string;
-// }
+interface User {
+  _id: string;
+  username: string;
+  userPfp: string;
+}
 
-// interface PostBodyProps {
-//   _id: string;
-//   content: string;
-//   likes: string[];
-//   user: User;
-// }
+interface PostBodyProps {
+  _id: string;
+  content: string;
+  likes: string[];
+  user: User;
+}
 
-function PostBody() {
-  const location = useLocation();
-  const { content, likes, user, _id } = location.state;
+const PostBody: React.FC<PostBodyProps> = ({ content, likes, user, _id }) => {
   const [isPostLiked, setIsPostLiked] = useState<boolean>();
 
   const { user: currentUser, fetchUser } = useUserStore();
@@ -105,6 +102,6 @@ function PostBody() {
       </CardFooter>
     </Card>
   );
-}
+};
 
 export default PostBody;
