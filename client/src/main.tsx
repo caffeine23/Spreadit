@@ -8,6 +8,7 @@ import axios from "axios";
 import Login from "./pages/Login.tsx";
 import Register from "./pages/Register.tsx";
 import ErrorPage from "./pages/ErrorPage.tsx";
+import Post from "./pages/Post.tsx";
 
 axios.defaults.baseURL = "http://localhost:3000/api";
 
@@ -16,6 +17,10 @@ const router = createBrowserRouter([
     path: "/",
     element: <App />,
     errorElement: <ErrorPage />,
+  },
+  {
+    path: "/post",
+    element: <Post />,
   },
   {
     path: "/login",
@@ -30,7 +35,7 @@ const router = createBrowserRouter([
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <ChakraProvider>
-        <RouterProvider router={router} />
+      <RouterProvider router={router} />
     </ChakraProvider>
   </React.StrictMode>
 );
