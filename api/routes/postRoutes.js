@@ -26,8 +26,8 @@ router.get("/getPost/:postId", getPost);
 router.patch("/updatePost/:postId", updatePost);
 router.delete("/deletePost/:postId", deletePost);
 router.get("/getUserPosts/:userId", getUserPosts);
-router.get("/likePost/:postId", likePost);
-router.get("/unlikePost/:postId", unlikePost);
+router.post("/likePost/:postId", likePost);
+router.post("/unlikePost/:postId", unlikePost);
 router.get("/getRandomPosts", getRandomPosts);
 
 module.exports = router;
