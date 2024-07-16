@@ -13,6 +13,7 @@ import {
 import { FaHeart, FaRegComment } from "react-icons/fa";
 import { FcLike } from "react-icons/fc";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 export default function FeedPost() {
   const [isPostLiked, setIsPostLiked] = useState<boolean>();
@@ -59,7 +60,9 @@ export default function FeedPost() {
         </Flex>
       </CardHeader>
       <CardBody>
-        <Text>Whatever the person has to say</Text>
+        <Link to={"/post"}>
+          <Text>Whatever the person has to say</Text>
+        </Link>
       </CardBody>
       <CardFooter justify="space-between" flexWrap="wrap">
         {isPostLiked ? (
