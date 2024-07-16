@@ -34,7 +34,6 @@ const Comment: React.FC<CommentProps> = ({ content, user, _id, userId }) => {
   useEffect(() => {
     fetchUser();
   }, [fetchUser]);
-  console.log(currentUser?.userId, userId);
 
   async function handleSubmit() {
     if (commentContent.length === 0) {

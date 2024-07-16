@@ -9,6 +9,7 @@ import {
   Heading,
   Text,
   Button,
+  Textarea,
 } from "@chakra-ui/react";
 import { FaHeart, FaRegComment } from "react-icons/fa";
 import { FcLike } from "react-icons/fc";
@@ -31,6 +32,19 @@ interface PostBodyProps {
 
 const PostBody: React.FC<PostBodyProps> = ({ content, likes, user, _id }) => {
   const [isPostLiked, setIsPostLiked] = useState<boolean>();
+  const [postContent, setPostContent] = useState<string>(content);
+  const [isEditing, setIsEditing] = useState<boolean>(false);
+
+  async function handleEdit() {
+    await axios.patch(`/post/updatePost/${_id}`, {
+      content: postContent,
+    });
+    setIsEditing(false);
+  }
+
+  async function handleDelete() {
+    await axios.delete(`/post/deletePost/${_id}`);
+  }
 
   const { user: currentUser, fetchUser } = useUserStore();
   useEffect(() => {
@@ -74,7 +88,18 @@ const PostBody: React.FC<PostBodyProps> = ({ content, likes, user, _id }) => {
         </Flex>
       </CardHeader>
       <CardBody>
-        <Text>{content}</Text>
+        {isEditing ? (
+          <Textarea
+            resize="none"
+            width="90%"
+            height="60px"
+            className="overflow-hidden"
+            value={postContent}
+            onChange={(evt) => setPostContent(evt.target.value)}
+          />
+        ) : (
+          <Text>{content}</Text>
+        )}
       </CardBody>
       <CardFooter justify="space-between" flexWrap="wrap">
         {isPostLiked ? (
@@ -99,6 +124,38 @@ const PostBody: React.FC<PostBodyProps> = ({ content, likes, user, _id }) => {
         <Button flex="1" variant="ghost" leftIcon={<FaRegComment />}>
           #
         </Button>
+        {currentUser?.userId === user._id && (
+          <>
+            {isEditing ? (
+              <Button
+                flex="1"
+                variant="ghost"
+                // leftIcon={<FcLike />}
+                onClick={handleEdit}
+              >
+                Submit
+              </Button>
+            ) : (
+              <Button
+                flex="1"
+                variant="ghost"
+                // leftIcon={<FcLike />}
+                onClick={() => setIsEditing(true)}
+              >
+                Edit
+              </Button>
+            )}
+
+            <Button
+              flex="1"
+              variant="ghost"
+              // leftIcon={<FaHeart />}
+              onClick={handleDelete}
+            >
+              Delete
+            </Button>
+          </>
+        )}
       </CardFooter>
     </Card>
   );
