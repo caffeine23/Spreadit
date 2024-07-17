@@ -35,7 +35,9 @@ export default function Navbar() {
       <Box px={4}>
         <Flex h={16} alignItems={"center"} justifyContent={"space-between"}>
           <Link to={"/"}>
-            <Box>LOGO</Box>
+            <Box>
+              <Heading size={"md"}>𝕊𝕡𝕣𝕖𝕒𝕕𝕚𝕥</Heading>
+            </Box>
           </Link>
 
           <Flex alignItems={"center"}>
@@ -57,11 +59,15 @@ export default function Navbar() {
                 <MenuList alignItems={"center"}>
                   <br />
                   <Center>
-                    <Avatar size={"2xl"} src={user?.pfp} />
+                    <Link to="/profile">
+                      <Avatar size={"2xl"} src={user?.pfp} />
+                    </Link>
                   </Center>
                   <br />
                   <Center>
-                    <Heading size="md">@{user?.username}</Heading>
+                    <Link to="/profile">
+                      <Heading size="md">@{user?.username}</Heading>
+                    </Link>
                   </Center>
                   <br />
                   <MenuDivider />
