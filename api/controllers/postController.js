@@ -1,3 +1,4 @@
+const mongoose = require("mongoose");
 const Post = require("../models/Post");
 const User = require("../models/User");
 
@@ -81,8 +82,52 @@ async function deletePost(req, res) {
 
 async function getUserPosts(req, res) {
   const { userId } = req.params;
-  const posts = await Post.find({ userId: userId });
-  res.send(posts);
+
+  try {
+    const posts = await Post.aggregate([
+      { $match: { userId: new mongoose.Types.ObjectId(userId) } },
+      {
+        $lookup: {
+          from: "comments",
+          localField: "_id",
+          foreignField: "postId",
+          as: "comments",
+        },
+      },
+      {
+        $lookup: {
+          from: "users",
+          localField: "userId",
+          foreignField: "_id",
+          as: "user",
+        },
+      },
+      { $unwind: "$user" },
+      {
+        $addFields: {
+          commentCount: { $size: "$comments" },
+        },
+      },
+      {
+        $project: {
+          _id: 1,
+          content: 1,
+          likes: 1,
+          commentCount: 1,
+          "user._id": 1,
+          "user.username": 1,
+          "user.userPfp": 1,
+        },
+      },
+    ]);
+
+    res.status(200).json(posts);
+  } catch (error) {
+    console.error("Error fetching user posts:", error);
+    res
+      .status(500)
+      .json({ message: "Internal server error", error: error.message });
+  }
 }
 
 async function likePost(req, res) {

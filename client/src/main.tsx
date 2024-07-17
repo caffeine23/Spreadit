@@ -9,6 +9,7 @@ import Login from "./pages/Login.tsx";
 import Register from "./pages/Register.tsx";
 import ErrorPage from "./pages/ErrorPage.tsx";
 import Post from "./pages/Post.tsx";
+import Profile from "./pages/Profile.tsx";
 
 axios.defaults.baseURL = "http://localhost:3000/api";
 
@@ -21,6 +22,10 @@ const router = createBrowserRouter([
   {
     path: "/post/:postId",
     element: <Post />,
+  },
+  {
+    path: "/profile",
+    element: <Profile />,
   },
   {
     path: "/login",
