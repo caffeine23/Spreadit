@@ -52,8 +52,7 @@ const Comment: React.FC<CommentProps> = ({ content, user, _id, userId }) => {
           <Flex flex="1" gap="4" alignItems="center" flexWrap="wrap">
             <Avatar src={user.userPfp} />
             <Box>
-              <Heading size="sm">Display Name</Heading>
-              <Text>@{user.username}</Text>
+              <Heading size="md">@{user.username}</Heading>
             </Box>
           </Flex>
         </Flex>

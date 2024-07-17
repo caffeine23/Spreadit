@@ -75,8 +75,7 @@ const FeedPost: React.FC<FeedPostProps> = ({
             <Avatar src={user.userPfp} />
 
             <Box>
-              <Heading size="sm">{user.username}</Heading>
-              <Text>@{user.username}</Text>
+              <Heading size="md">@{user.username}</Heading>
             </Box>
           </Flex>
         </Flex>

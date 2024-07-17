@@ -7,7 +7,6 @@ import {
   Avatar,
   Box,
   Heading,
-  Text,
   Button,
   Textarea,
 } from "@chakra-ui/react";
@@ -53,8 +52,7 @@ export default function MakePost() {
               <Avatar src={user?.pfp} />
 
               <Box>
-                <Heading size="sm">{user?.username}</Heading>
-                <Text>@{user?.username}</Text>
+                <Heading size="md">@{user?.username}</Heading>
               </Box>
             </Flex>
           </Flex>

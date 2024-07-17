@@ -6,7 +6,6 @@ import {
   Avatar,
   Box,
   Heading,
-  Text,
   Button,
   Textarea,
 } from "@chakra-ui/react";
@@ -56,8 +55,7 @@ const MakeComment: React.FC<MakeCommentProps> = ({ postId }) => {
             <Flex flex="1" gap="4" alignItems="center" flexWrap="wrap">
               <Avatar src={user?.pfp} />
               <Box>
-                <Heading size="sm">{user?.username}</Heading>
-                <Text>@{user?.username}</Text>
+                <Heading size="md">@{user?.username}</Heading>
               </Box>
             </Flex>
           </Flex>

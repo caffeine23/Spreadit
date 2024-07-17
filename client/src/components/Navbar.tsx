@@ -10,6 +10,7 @@ import {
   Stack,
   useColorMode,
   Center,
+  Heading,
 } from "@chakra-ui/react";
 import { MoonIcon, SunIcon } from "@chakra-ui/icons";
 import useUserStore from "../context/UserContext";
@@ -60,11 +61,15 @@ export default function Navbar() {
                   </Center>
                   <br />
                   <Center>
-                    <p>@{user?.username}</p>
+                    <Heading size="md">@{user?.username}</Heading>
                   </Center>
                   <br />
                   <MenuDivider />
-                  <Center onClick={logout}>Logout</Center>
+                  <Center>
+                    <Button variant={"ghost"} onClick={logout}>
+                      Logout
+                    </Button>
+                  </Center>
                 </MenuList>
               </Menu>
             </Stack>
