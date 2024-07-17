@@ -40,9 +40,12 @@ export default function Profile() {
     <>
       <Navbar />
       <div className="flex flex-col items-center">
-        <Avatar size={"2xl"} src={user?.pfp || ""} className="my-4" />
-        <Heading size="md" className="my-2">
+        <Avatar size={"3xl"} src={user?.pfp || ""} className="my-4" />
+        <Heading size="xl" className="my-2">
           @{user?.username}
+        </Heading>
+        <Heading size={"md"} className="my-2">
+          Your Posts
         </Heading>
         <div className="w-full flex flex-col items-center">
           {posts.map((post) => (
