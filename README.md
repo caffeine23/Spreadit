@@ -1,4 +1,4 @@
-# KanbanBoard
+# Spreadit
 Social Media made using MongoDB, ExpressJs, ReactJs & NodeJs
 
 ### To run
